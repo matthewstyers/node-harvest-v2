@@ -1,48 +1,48 @@
-let base = require('../mixins/Base.js');
-let pick = require('lodash/pick.js');
-
-function Time_Entries(options) {
-    this.name = 'time_entries';
-    this.baseUri = 'https://api.harvestapp.com/v2/' + this.name;
-    this.options = options;
+const base = require('../mixins/Base.js');
+const pick = require('lodash/pick.js');
+const Request = require('../Request');
+function TimeEntries(options) {
+  this.name = 'time_entries';
+  this.baseUri = 'https://api.harvestapp.com/v2/' + this.name;
+  this.options = options;
 }
 
-Object.assign(Time_Entries.prototype, pick(base, ['retrieve', 'create', 'update', 'delete']));
+Object.assign(TimeEntries.prototype, pick(base, ['retrieve', 'create', 'update', 'delete']));
 
-Time_Entries.prototype.list = function(params, cb) {
-    let listParams = ['user_id', 'client_id', 'project_id', 'is_billed', 'is_running', 'updated_since', 'from', 'to', 'page', 'per_page'];
+TimeEntries.prototype.list = function list(params, cb) {
+  const listParams = ['user_id', 'client_id', 'project_id', 'is_billed', 'is_running', 'updated_since', 'from', 'to', 'page', 'per_page'];
 
-    let link = "?";
+  let link = '?';
 
-    for (let datax in params) {
-        if (listParams.indexOf(datax) != -1) {
-            link = link + datax + '=' + params[datax] + '&';
-        }
+  for (const datax in params) {
+    if (listParams.indexOf(datax) !== -1) {
+      link = link + datax + '=' + params[datax] + '&';
     }
+  }
 
-    this.options.url = this.baseUri + '/' + link.slice(0, -1);
+  this.options.url = this.baseUri + '/' + link.slice(0, -1);
 
-    new Request(this.options, cb);
-}
+  new Request(this.options, cb);
+};
 
-Time_Entries.prototype.listAll = function(cb) {
-    this.options.url = this.baseUri;
+TimeEntries.prototype.listAll = function listAll(cb) {
+  this.options.url = this.baseUri;
 
-    new Request(this.options, cb);
-}
+  new Request(this.options, cb);
+};
 
-Time_Entries.prototype.restart = function(timeEntryID, cb) {
-    this.options.url = this.baseUri + '/' + timeEntryID + '/restart';
-    this.options.method = 'PATCH';
+TimeEntries.prototype.restart = function restart(timeEntryID, cb) {
+  this.options.url = this.baseUri + '/' + timeEntryID + '/restart';
+  this.options.method = 'PATCH';
 
-    new Request(this.options, cb);
-}
+  new Request(this.options, cb);
+};
 
-Time_Entries.prototype.stop = function(timeEntryID, cb) {
-    this.options.url = this.baseUri + '/' + timeEntryID + '/stop';
-    this.options.method = 'PATCH';
+TimeEntries.prototype.stop = function stop(timeEntryID, cb) {
+  this.options.url = this.baseUri + '/' + timeEntryID + '/stop';
+  this.options.method = 'PATCH';
 
-    new Request(this.options, cb);
-}
+  new Request(this.options, cb);
+};
 
-module.exports = Time_Entries;
+module.exports = TimeEntries;

@@ -1,12 +1,12 @@
-let request = require('request');
+const request = require('request');
 
 module.exports = class Request {
-    /**
+  /**
      *
      * @param options
      * @param cb
      */
-    constructor(options, cb) {
-        request(options, cb);
-    }
-}
+  constructor(options, cb) {
+    request(options, cb);
+  }
+};
