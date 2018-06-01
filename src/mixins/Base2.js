@@ -1,46 +1,41 @@
 let request = require('request-promise');
 
-const base = {
+const base2 = {
 
-    list(cb) {
-        this.options.url = this.baseUri;
+    list(id, cb) {
+        this.options.url = this.baseUri + id + '/' + this.name;
         this.options.method = 'GET';
         this.options.body = '';
         return request(this.options, cb);
     },
 
-    retrieve(id, cb) {
-        if (id) {
-            this.options.url = this.baseUri + '/' + id;
-        } else {
-            this.options.url = this.baseUri;
-        }
+    retrieve(id, otherId, cb) {
+        this.options.url = this.baseUri + id + '/' + this.name + '/' + otherId;
         this.options.method = 'GET';
         this.options.body = '';
-
         return request(this.options, cb);
     },
 
-    create(params, cb) {
-        this.options.url = this.baseUri;
+    create(id, params, cb) {
+        this.options.url = this.baseUri + id + '/' + this.name;
         this.options.method = 'POST';
         this.options.body = JSON.stringify(params);
         return request(this.options, cb);
     },
 
-    update(id, params, cb) {
-        this.options.url = this.baseUri + '/' + id;
+    update(id, otherId, params, cb) {
+        this.options.url = this.baseUri + id + '/' + this.name + '/' + otherId;
         this.options.method = 'PATCH';
         this.options.body = JSON.stringify(params);
         return request(this.options, cb);
-   },
+    },
 
-    delete(id, cb) {
-        this.options.url = this.baseUri + '/' + id;
+    delete(id, otherId, cb) {
+        this.options.url = this.baseUri + id + '/' + this.name + '/' + otherId;
         this.options.method = 'DELETE';
         this.options.body = '';
         return request(this.options, cb);
     }
 };
 
-module.exports = base;
+module.exports = base2;
