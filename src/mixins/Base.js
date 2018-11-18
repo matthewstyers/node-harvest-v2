@@ -7,7 +7,7 @@ const base = {
         this.options.method = 'GET';
         this.options.body = '';
         this.options.json = true;
-        return request(this.options, cb);
+        return request(this.options.url, this.options, cb);
     },
 
     retrieve(id, cb) {
@@ -20,7 +20,7 @@ const base = {
         this.options.body = '';
         this.options.json = true;
 
-        return request(this.options, cb);
+        return request(this.options.url, this.options, cb);
     },
 
     create(params, cb) {
@@ -29,7 +29,7 @@ const base = {
         this.options.body = JSON.stringify(params);
         this.options.json = false;
 
-        return request(this.options, cb);
+        return request(this.options.url, this.options, cb);
     },
 
     update(id, params, cb) {
@@ -38,7 +38,7 @@ const base = {
         this.options.body = JSON.stringify(params);
         this.options.json = false;
 
-        return request(this.options, cb);
+        return request(this.options.url, this.options, cb);
    },
 
     delete(id, cb) {
@@ -47,7 +47,7 @@ const base = {
         this.options.body = '';
         this.options.json = false;
 
-        return request(this.options, cb);
+        return request(this.options.url, this.options, cb);
     }
 };
 
