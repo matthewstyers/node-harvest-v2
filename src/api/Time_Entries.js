@@ -1,48 +1,15 @@
-const base = require('../mixins/Base.js');
-const pick = require('lodash/pick.js');
-const Request = require('../Request');
-function TimeEntries(options) {
-  this.name = 'time_entries';
-  this.baseUri = 'https://api.harvestapp.com/v2/' + this.name;
-  this.options = options;
+let base = require('../mixins/Base.js'),
+    filterBase = require('../mixins/ListFilterBase'),
+    pick = require('lodash/pick.js');
+
+function Time_Entries(options) {
+    this.name = 'time_entries';
+    this.baseUri = 'https://api.harvestapp.com/v2/' + this.name;
+    this.options = options;
 }
 
-Object.assign(TimeEntries.prototype, pick(base, ['retrieve', 'create', 'update', 'delete']));
+Object.assign(Time_Entries.prototype, base);
 
-TimeEntries.prototype.list = function list(params, cb) {
-  const listParams = ['user_id', 'client_id', 'project_id', 'is_billed', 'is_running', 'updated_since', 'from', 'to', 'page', 'per_page'];
+Object.assign(Time_Entries.prototype, pick(filterBase, ['listBy', 'restart', 'stop']));
 
-  let link = '?';
-
-  for (const datax in params) {
-    if (listParams.indexOf(datax) !== -1) {
-      link = link + datax + '=' + params[datax] + '&';
-    }
-  }
-
-  this.options.url = this.baseUri + '/' + link.slice(0, -1);
-
-  new Request(this.options, cb);
-};
-
-TimeEntries.prototype.listAll = function listAll(cb) {
-  this.options.url = this.baseUri;
-
-  new Request(this.options, cb);
-};
-
-TimeEntries.prototype.restart = function restart(timeEntryID, cb) {
-  this.options.url = this.baseUri + '/' + timeEntryID + '/restart';
-  this.options.method = 'PATCH';
-
-  new Request(this.options, cb);
-};
-
-TimeEntries.prototype.stop = function stop(timeEntryID, cb) {
-  this.options.url = this.baseUri + '/' + timeEntryID + '/stop';
-  this.options.method = 'PATCH';
-
-  new Request(this.options, cb);
-};
-
-module.exports = TimeEntries;
+module.exports = Time_Entries;
